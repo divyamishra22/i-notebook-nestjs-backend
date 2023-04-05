@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { NoteController } from './note/note.controller';
 import { NoteService } from './note/note.service';
 import { NoteModule } from './note/note.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,9 +16,10 @@ import { NoteModule } from './note/note.module';
       'mongodb://divya:divya123@127.0.0.1:27017/mydb1',
     ),
     UserModule,
-    NoteModule
+    NoteModule,
+    AuthModule
   ],
-  controllers: [AppController, UserController, NoteController],
-  providers: [AppService, UserService, NoteService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
