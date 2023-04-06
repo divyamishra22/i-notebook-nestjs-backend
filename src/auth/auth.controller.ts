@@ -5,6 +5,8 @@ import { LocalStrategy } from './local strategy';
 import { type } from 'os';
 import { LocalAuthGuard } from './auth.guards';
 import { User } from 'src/user/user.schema';
+// import { Request } from 'express';
+
 
 class UserVerifyRequestBody{
   @ApiProperty() name: string;
@@ -29,9 +31,9 @@ export class AuthController {
 
     @Post('/login')
     @UseGuards(LocalAuthGuard)
-     login():string {
+     login(@Request() req){
 
-     return  'login sucessfull';
+     return  req.user;
     }
 
 }
