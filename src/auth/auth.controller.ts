@@ -17,7 +17,7 @@ export class AuthController {
     // @ApiResponse({ type: string })
     @Post('/login')
     @UseGuards(AuthGuard('local'))
-   async  login(@Body() verifyuser:UserVerifyRequestBody):Promise<string> {
+   async  login(@Body() verifyuser:UserVerifyRequestBody):Promise<any> {
 
      const usercheck =  await this.uservalidate.validate(verifyuser.name, verifyuser.password);
      if(usercheck)
