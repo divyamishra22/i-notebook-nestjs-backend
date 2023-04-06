@@ -1,5 +1,6 @@
 import {Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
+import { IsEmail, MinLength } from "class-validator";
 import { Document } from "mongoose";
 // import { Schema } from "mongoose";
 // import { HydratedDocument } from 'mongoose';
@@ -13,11 +14,13 @@ export class User {
   name: string;
 
   @ApiProperty()
-  @Prop({required: true})
+  @MinLength(5)
+  @Prop({required: true,})
   password: string;
 
   @ApiProperty()
-  @Prop({ required: true, unique: true})
+  @IsEmail()
+  @Prop({ required: true, unique: true,})
   email: string;
   
   @ApiProperty()

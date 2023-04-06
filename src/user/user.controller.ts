@@ -2,12 +2,13 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.schema';
+import { IsEmail, MinLength } from 'class-validator';
 
 
 class UserCreateRequestBody{
     @ApiProperty() name: string;
-    @ApiProperty() password: string;
-    @ApiProperty() email: string;
+    @ApiProperty() @MinLength(5) password: string;
+    @ApiProperty() @IsEmail() email: string;
 }
     
 
