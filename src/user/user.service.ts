@@ -20,8 +20,8 @@ export class UserService {
     }
 
     public async getuserbyusername(username: string): Promise<User>{
-    //   const getuser = await this.userModel.find(User => name === username);
-       const getuser = await this.userModel.findOne({where:{name: username}});
+      const getuser = await this.userModel.findOne(User => User.name === username);
+      //  const getuser = await this.userModel.findOne({where:{name: username}});
       return getuser;
     }
 }

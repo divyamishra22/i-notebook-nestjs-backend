@@ -4,6 +4,7 @@ import { ApiBody, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LocalStrategy } from './local strategy';
 import { type } from 'os';
 import { LocalAuthGuard } from './auth.guards';
+import { User } from 'src/user/user.schema';
 
 class UserVerifyRequestBody{
   @ApiProperty() name: string;
@@ -19,11 +20,11 @@ export class AuthController {
     // @ApiResponse({ type: string })
     @Post('/login')
     @UseGuards(LocalAuthGuard)
-   async  login(@Body() verifyuser:UserVerifyRequestBody):Promise<any> {
+   async  login(@Body() verifyuser:UserVerifyRequestBody):Promise<User> {
 
      const usercheck =  await this.uservalidate.validate(verifyuser.name, verifyuser.password);
      if(usercheck)
-     return 'Login successfull'
+     return usercheck;
     }
 
 }
