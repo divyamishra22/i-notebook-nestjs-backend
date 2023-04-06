@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { User } from './user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { STATUS_CODES } from 'http';
 
 @Injectable()
 export class UserService {
@@ -16,5 +17,11 @@ export class UserService {
           else{
             throw new ConflictException('Email already exists');
           }
+    }
+
+    public async getuserbyusername(username): Promise<User>{
+       
+      const getuser = await this.userModel.findOne({where:{name: username}});
+      return getuser;
     }
 }
