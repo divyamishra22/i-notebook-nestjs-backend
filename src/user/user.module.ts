@@ -3,7 +3,7 @@ import { User, UserSchema } from './user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { LocalStrategy } from 'src/auth/local strategy';
+// import { LocalStrategy } from 'src/auth/local strategy';
 
 @Module({
     imports: [

@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.schema';
 
@@ -11,24 +11,35 @@ class UserCreateRequestBody{
 }
     
 
+
 @ApiTags('Users')
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService) {}
-
+    
     @Post('/')
-//CreateUser(@Param('username') username: string):string{
-   // return `User of ${username} created`;
- async createNewUser(@Body() createUserRequest: UserCreateRequestBody): Promise<User>{         
- const  user = await this.userService.createUser(createUserRequest);
-  return user;                                                     
-   }
-   @Get('/username')
-   async getuser(@Param('name') name: string): Promise<any>{
-    const user = await this.userService.getuserbyusername(name);
-    if(user)
-    return user;
-    else
-    return 'no user exists';
-   }
+   async create(@Body() usercreaterequestbody: UserCreateRequestBody){
+        return await this.userService.create(usercreaterequestbody);
+    }
+
+    @Get('/user')
+   async findall(): Promise<User[]>{
+        return await this.userService.findall();
+    }
+    @Get('/id')
+    async find(@Param('id') id: string): Promise<User>{
+        return await this.userService.findOne(id);
+    }
+
+
+    @Get('/username')
+    async getusername(@Param('username') username:string){
+        return await this.userService.getusername(username);
+    }
+
+    @Delete('/id')
+    async remove(@Param('id')id: string){
+    return await this.userService.remove(id);
+    }
+
 }
