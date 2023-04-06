@@ -3,6 +3,7 @@ import { User, UserDocument } from './user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { hash } from 'bcrypt';
 // import { STATUS_CODES } from 'http';
 
 
@@ -10,12 +11,16 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 @Injectable()
 export class UserService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
+    public static PASSWORD_SALT_ROUNDS = 10;
   
-    create(createuser): Promise<User>{
+   async create(createuser): Promise<User>{
       const user = new this.userModel();
       user.name = createuser.name;
       user.password = createuser.password;
+      user.password = await this.passToHash(user.password)
       user.email = createuser.email;
+
       return user.save();
     }
     findall(): Promise<User[]>{
@@ -34,6 +39,10 @@ export class UserService {
     }
 
 
+
+    private async passToHash(password: string): Promise<string> {
+      return hash(password, UserService.PASSWORD_SALT_ROUNDS);
+    }
     
     //create user
   // public   async createUser(user: Partial<User>):Promise<User>{
