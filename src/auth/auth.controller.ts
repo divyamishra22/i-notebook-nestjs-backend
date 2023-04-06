@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LocalStrategy } from './local strategy';
@@ -20,11 +20,18 @@ export class AuthController {
     // @ApiResponse({ type: string })
     @Post('/login')
     @UseGuards(LocalAuthGuard)
-   async  login(@Body() verifyuser:UserVerifyRequestBody):Promise<User> {
+   async  login(@Body() verifyuser:UserVerifyRequestBody):Promise<any> {
 
      const usercheck =  await this.uservalidate.validate(verifyuser.name, verifyuser.password);
      if(usercheck)
-     return usercheck;
+     return 'login sucessfull';
     }
+
+  //   @Post('/login')
+  //   @UseGuards(LocalAuthGuard)
+  //  async  login(@Request() req):Promise<User> {
+
+  //    return  req.user;
+  //   }
 
 }
