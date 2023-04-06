@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.schema';
@@ -22,5 +22,13 @@ export class UserController {
  async createNewUser(@Body() createUserRequest: UserCreateRequestBody): Promise<User>{         
  const  user = await this.userService.createUser(createUserRequest);
   return user;                                                     
+   }
+   @Get('/username')
+   async getuser(@Param('name') name: string): Promise<any>{
+    const user = await this.userService.getuserbyusername(name);
+    if(user)
+    return user;
+    else
+    return 'no user exists';
    }
 }
