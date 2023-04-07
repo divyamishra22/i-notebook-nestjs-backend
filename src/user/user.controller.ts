@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.schema';
-import { IsEmail, MinLength } from 'class-validator';
+import { IsEmail, IsString, MinLength } from 'class-validator';
 
 
 class UserCreateRequestBody{
@@ -11,6 +11,7 @@ class UserCreateRequestBody{
     @ApiProperty() @IsEmail() email: string;
 }
     
+
 
 
 @ApiTags('Users')
@@ -42,6 +43,5 @@ export class UserController {
     async remove(@Param('id')id: string){
     return await this.userService.remove(id);
     }
-
-
+   
 }
