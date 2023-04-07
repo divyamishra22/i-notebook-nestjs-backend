@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBody, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LocalStrategy } from './local strategy';
 import { type } from 'os';
 import { LocalAuthGuard } from './auth.guards';
@@ -20,9 +20,15 @@ class UserVerifyRequestBody{
 @Controller('auth')
 export class AuthController {
 
+
+  
+
+  @ApiBody({ description:'verification', type: UserVerifyRequestBody})
+  @UseGuards(LocalAuthGuard)
     @Post('/login')
-     @UseGuards(LocalAuthGuard)
-   async  login(@Body() verifyuser:UserVerifyRequestBody, @Request() req):Promise<User> {
+    
+     @ApiBearerAuth()
+   async  logi(@Request() req):Promise<User> {
 
      return req.user;
     }
