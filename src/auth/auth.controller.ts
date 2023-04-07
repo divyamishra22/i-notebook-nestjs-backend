@@ -6,7 +6,7 @@ import { type } from 'os';
 import { LocalAuthGuard } from './auth.guards';
 import { User } from 'src/user/user.schema';
 import { MinLength } from 'class-validator';
-// import { Request } from 'express';
+//  import { Request } from 'express';
 
 
 class UserVerifyRequestBody{
@@ -21,12 +21,10 @@ class UserVerifyRequestBody{
 export class AuthController {
    constructor(private uservalidate: LocalStrategy){}
     @Post('/login')
-    // @UseGuards(LocalAuthGuard)
-   async  login(@Body() verifyuser:UserVerifyRequestBody):Promise<any> {
+     @UseGuards(LocalAuthGuard)
+   async  login(@Body() verifyuser:UserVerifyRequestBody, @Request() req):Promise<User> {
 
-     const usercheck =  await this.uservalidate.validate(verifyuser.name, verifyuser.password);
-     if(usercheck)
-     return 'login sucessfull';
+     return req.user;
     }
 
 
