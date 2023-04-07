@@ -1,7 +1,7 @@
 import {Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, MinLength } from "class-validator";
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 // import { Schema } from "mongoose";
 // import { HydratedDocument } from 'mongoose';
 
@@ -9,6 +9,10 @@ import { Document } from "mongoose";
 
 @Schema()
 export class User {
+
+  // @Prop({ type: mongoose.Types.ObjectId })
+  // _id: string
+
   @ApiProperty()
   @Prop({required:true})
   name: string;

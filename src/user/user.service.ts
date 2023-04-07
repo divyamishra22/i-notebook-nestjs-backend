@@ -26,12 +26,12 @@ export class UserService {
     findall(): Promise<User[]>{
       return this.userModel.find().exec();
     }
-    findOne(id:string): Promise<User>{
-     return this.userModel.findById(id).exec();
+    async findOne(id:string): Promise<User>{
+     return await  this.userModel.findOne({_id: id}).exec();
     }
    
     remove(id:string){
-      return this.userModel.deleteOne({id:id}).exec();
+      return this.userModel.deleteOne({_id:id}).exec();
     }
      
     async getusername(username:string): Promise<User>{
