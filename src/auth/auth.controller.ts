@@ -19,7 +19,7 @@ class UserVerifyRequestBody{
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-   constructor(private uservalidate: LocalStrategy){}
+
     @Post('/login')
      @UseGuards(LocalAuthGuard)
    async  login(@Body() verifyuser:UserVerifyRequestBody, @Request() req):Promise<User> {
@@ -27,13 +27,5 @@ export class AuthController {
      return req.user;
     }
 
-
-
-    // @Post('/login')
-    // @UseGuards(LocalAuthGuard)
-    //  login(@Request() req){
-
-    //  return  req.user;
-    // }
 
 }
