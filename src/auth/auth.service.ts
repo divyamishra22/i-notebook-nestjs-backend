@@ -1,8 +1,12 @@
 import { Injectable, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-
 import { UserService } from 'src/user/user.service';
+
+
+export interface JWTPayload {
+  userid: string;
+}
 
 
 @Injectable()
@@ -31,8 +35,10 @@ export class AuthService {
   }
   if(user &&  this.matchPassHash(password, user.password))
   {
-    const jwt = await this.jwtService.signAsync({user});
-    return {token: jwt};
+    const payload: JWTPayload = { userid: user._id };
+    const jwt = await this.jwtService.sign({payload});
+    return {token: jwt,
+      expiresIn: '30 days',};
   }
   else{
     return 'password not match';

@@ -14,16 +14,15 @@ import { JwtStrategy } from './guards/jwt strategy';
 @Module({
   // imports: [PassportModule,UserModule,],
   imports: [UserModule,
-    JwtModule.registerAsync({
-      useFactory: () =>({
+    JwtModule.register({
       secret: 'divya123',
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '10days' },
     }),
-})
+
 ],
   controllers: [AuthController],
   // providers: [AuthService, JwtStrategy],
-  providers: [AuthService,JwtGuard, JwtStrategy ]
-  // export: []
+  providers: [AuthService,JwtGuard, JwtStrategy ],
+   exports: [AuthService, JwtStrategy]
 })
 export class AuthModule {}

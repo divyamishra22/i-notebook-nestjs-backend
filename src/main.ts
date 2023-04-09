@@ -11,7 +11,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('My API')
-    .setDescription('API for checking user status')
+    .setDescription('API for getting notes')
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
