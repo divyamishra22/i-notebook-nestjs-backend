@@ -7,11 +7,14 @@ import { Model } from 'mongoose';
 export class NoteService {
     constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>){}
     
-    createnotes(title:string, desc:string, tag:string){
+    createnotes(title:string, desc:string, tag:string, user:string){
      const note = new this.noteModel();
      note.title = title;
      note.description = desc;
      note.tag = tag;
+     note.id = user;
      return note.save();
     }
+
+    
 }
