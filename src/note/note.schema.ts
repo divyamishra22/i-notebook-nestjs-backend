@@ -11,16 +11,16 @@ export class Note {
    @ApiProperty()
   user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 
-  @ApiProperty()
-  @Prop({required: true})
-  id: string;
+  // @ApiProperty()
+  // @Prop({required: true})
+  // id: string;
 
   @ApiProperty()
   @Prop({required:true})
   title: string;
 
   
-  @Prop({required:true , unique:true})
+  @Prop({required:true })
   description: string;
 
   

@@ -1,4 +1,4 @@
-import { Body, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Body, ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { User, UserDocument } from './user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -19,7 +19,17 @@ export class UserService {
       user.name = createuser.name;
       user.password = createuser.password;
       user.password = await this.passToHash(user.password)
+      const email = createuser.email;
+      const findemail = await this.userModel.findOne({email}).exec();
+      if(!findemail){
       user.email = createuser.email;
+      }
+      else{
+        throw new HttpException(
+          'Email already exists',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       return user.save();
     }
