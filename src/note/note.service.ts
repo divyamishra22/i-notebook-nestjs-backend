@@ -10,7 +10,7 @@ export class NoteService {
     
    async  createnotes(title:string, desc:string, tag:string, user:string){
      const note = new this.noteModel();
-     const findtitle =  await this.noteModel.find({title});
+     const findtitle =  await this.noteModel.findOne({title}).exec();
      if(!findtitle)
      note.title = title;
      else{
