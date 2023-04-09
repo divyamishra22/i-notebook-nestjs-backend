@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { NoteService } from './note.service';
-import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { IsString, MinLength } from 'class-validator';
 import { Note } from './note.schema';
+import { JwtGuard } from 'src/auth/guards/jwtguard';
 
 
 class CreateNoteBody{
@@ -17,7 +18,8 @@ class CreateNoteBody{
 export class NoteController {
     constructor(private noteService: NoteService){}
      
-
+    @ApiBearerAuth()
+    @UseGuards(JwtGuard)
     @Post('/')
     async createnote(@Body()createnotebody: CreateNoteBody): Promise<Note>{
       return await this.noteService.createnotes(createnotebody.title,createnotebody.description,
