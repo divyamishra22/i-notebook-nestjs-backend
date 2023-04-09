@@ -10,6 +10,7 @@ import { JwtStrategy } from './guards/jwt strategy';
 
 
 
+
 @Module({
   // imports: [PassportModule,UserModule,],
   imports: [UserModule,
@@ -21,8 +22,8 @@ import { JwtStrategy } from './guards/jwt strategy';
 })
 ],
   controllers: [AuthController],
-  // providers: [AuthService, LocalStrategy],
-  providers: [AuthService,JwtGuard, JwtStrategy]
+  // providers: [AuthService, JwtStrategy],
+  providers: [AuthService,JwtGuard, JwtStrategy ]
   // export: []
 })
 export class AuthModule {}

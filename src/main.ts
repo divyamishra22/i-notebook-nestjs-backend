@@ -12,6 +12,14 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('My API')
     .setDescription('API for checking user status')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      name: "JWT",
+      description: "Enter JWT token",
+      in: "header"
+    } , "JWT-auth")
     .setVersion('1.0')
     .addTag('posts')
     .build();
