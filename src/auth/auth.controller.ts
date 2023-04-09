@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
 
 class UserVerifyRequestBody{
   @ApiProperty()@MinLength(5) @IsString() password: string;
-   @ApiProperty() @IsString()  email: string;
+   @ApiProperty() @IsString() @IsEmail()  email: string;
 }
  
 

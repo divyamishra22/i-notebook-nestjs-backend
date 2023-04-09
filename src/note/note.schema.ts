@@ -8,7 +8,12 @@ export type NoteDocument = Note & Document;
 @Schema()
 export class Note {
 
-   user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+   @ApiProperty()
+  user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+
+  @ApiProperty()
+  @Prop({required: true})
+  id: string;
 
   @ApiProperty()
   @Prop({required:true})
