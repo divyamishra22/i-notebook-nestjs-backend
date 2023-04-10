@@ -4,6 +4,7 @@ import { ApiBearerAuth, ApiProperty, ApiSecurity, ApiTags } from '@nestjs/swagge
 import { IsString, MinLength } from 'class-validator';
 import { Note } from './note.schema';
 import { JwtGuard } from 'src/auth/guards/jwtguard';
+import { getUserbyId } from 'src/auth/auth.decorator';
 
 
 
@@ -11,7 +12,7 @@ class CreateNoteBody{
     @ApiProperty() @IsString() @MinLength(3) title: string;
     @ApiProperty() @MinLength(5) description: string;
     @ApiProperty() @IsString() @MinLength(1)  tag: string;
-    // @ApiProperty()  @IsString() userid: string;
+    
 }
   
 @ApiTags('Notes')
@@ -26,11 +27,9 @@ export class NoteController {
     @UseGuards(JwtGuard)
     //   @ApiSecurity('JWT')
     @Post('/')
-    async createnote(@Body()createnotebody: CreateNoteBody , @Request() req:any): Promise<Note>{
-        const user = req.user;
+    async createnote(@Body()createnotebody: CreateNoteBody , @getUserbyId()userId:string): Promise<Note>{
       return await this.noteService.createnotes(createnotebody.title,createnotebody.description,
-        createnotebody.tag, user
-        );
+        createnotebody.tag, userId);
     }
 
     // @ApiBearerAuth()
