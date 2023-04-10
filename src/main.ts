@@ -15,15 +15,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('posts')
      .addBearerAuth(
-      {
-      type: 'http',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-      name: "JWT",
-      description: "Enter JWT token",
-      in: "header"
-    } , "JWT"
-     )
+      {type: 'http', scheme:'bearer', bearerFormat:'Token'})
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

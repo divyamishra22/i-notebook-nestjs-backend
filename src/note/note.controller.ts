@@ -22,39 +22,51 @@ class UpdateNoteRequestBody extends PartialType(CreateNoteBody){}
 export class NoteController {
     constructor(private noteService: NoteService){}
     
-    // @ApiBearerAuth()
+     
     @UseGuards(JwtGuard)
+    @ApiBearerAuth()
     //   @ApiSecurity('JWT')
-    @Post('/')
+    @Post('/createyournote')
     async createnote(@Body()createnotebody: CreateNoteBody , @getUserbyId()userId:string): Promise<Note>{
       return await this.noteService.createnotes(createnotebody.title,createnotebody.description,
         createnotebody.tag, userId);
     }
 
-    // @ApiBearerAuth()
+    
     @UseGuards(JwtGuard)
-    // @ApiSecurity('JWT')
+    @ApiBearerAuth()
+    //  @ApiSecurity('JWT')
     @Get('/post')
     post(@Request() req:any): any{
-        // return " hii "+ JSON.stringify(req.userid);
+      
         // console.log('post() controller', req.user);
     return "hi " + JSON.stringify(req.user);
     }
     
-    @UseGuards(JwtGuard)
+
+    // @ApiSecurity('JWT')
+    
+     @UseGuards(JwtGuard)
+     @ApiBearerAuth()
     @Get('/getyournote')
     async getyournote(@getUserbyId() userId:string): Promise<Note[]>{
         return await this.noteService.getyournote(userId);
     }
 
 
+    // @ApiSecurity('JWT')
+   
     @UseGuards(JwtGuard)
+    @ApiBearerAuth()
     @Delete('/deleteyournote')
     async deleteyournote(@getUserbyId() userId:string){
         return await this.noteService.deleteyournote(userId);
     }
   
+    // @ApiSecurity('JWT')
+    
     @UseGuards(JwtGuard)
+    @ApiBearerAuth()
     @Patch('/updateyournote')
     async updateyournote(@Body() updatenoterequestbody:UpdateNoteRequestBody,@getUserbyId() userId: string){
         return await this.noteService.updateyournote(updatenoterequestbody, userId);
