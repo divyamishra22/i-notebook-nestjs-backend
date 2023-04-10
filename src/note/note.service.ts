@@ -36,7 +36,7 @@ export class NoteService {
 
     
     async getyournote(userId:string){
-      return await this.noteModel.findOne({user:userId}).exec();
+      return await this.noteModel.find({user:userId}).exec();
     }
 
 
@@ -55,7 +55,7 @@ export class NoteService {
     }
 
 
-    
+
     async deleteyournote(userId:string){
       return await this.noteModel.deleteOne({user:userId}).exec();
     }

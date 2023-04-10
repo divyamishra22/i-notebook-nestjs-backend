@@ -43,7 +43,7 @@ export class NoteController {
     
     @UseGuards(JwtGuard)
     @Get('/getyournote')
-    async getyournote(@getUserbyId() userId:string): Promise<Note>{
+    async getyournote(@getUserbyId() userId:string): Promise<Note[]>{
         return await this.noteService.getyournote(userId);
     }
 
@@ -54,6 +54,7 @@ export class NoteController {
         return await this.noteService.deleteyournote(userId);
     }
   
+    @UseGuards(JwtGuard)
     @Patch('/updateyournote')
     async updateyournote(@Body() updatenoterequestbody:UpdateNoteRequestBody,@getUserbyId() userId: string){
         return await this.noteService.updateyournote(updatenoterequestbody, userId);
