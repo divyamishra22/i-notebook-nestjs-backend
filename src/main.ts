@@ -12,7 +12,9 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('My API')
     .setDescription('API for getting notes')
-    .addBearerAuth(
+    .setVersion('1.0')
+    .addTag('posts')
+     .addBearerAuth(
       {
       type: 'http',
       scheme: 'bearer',
@@ -21,9 +23,7 @@ async function bootstrap() {
       description: "Enter JWT token",
       in: "header"
     } , "JWT"
-    )
-    .setVersion('1.0')
-    .addTag('posts')
+     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

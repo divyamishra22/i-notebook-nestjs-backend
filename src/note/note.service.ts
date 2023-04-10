@@ -8,7 +8,7 @@ import { throwError } from 'rxjs';
 export class NoteService {
     constructor(@InjectModel(Note.name) private noteModel: Model<any>){}
     
-   async  createnotes(title:string, desc:string, tag:string, ){
+   async  createnotes(title:string, desc:string, tag:string, user:any){
      const note = new this.noteModel();
      const findtitle =  await this.noteModel.findOne({title}).exec();
      if(!findtitle)
@@ -30,7 +30,7 @@ export class NoteService {
       )
      }
      note.tag = tag;
-    
+     note.user = user;
      return note.save();
     }
 

@@ -15,8 +15,8 @@ export class Note {
   // // _id: Types.ObjectId;
   // _id: mongoose.Types.ObjectId;
 
-  // @Prop({type: [Types.ObjectId], ref: 'User'})
-  // userid: string;
+  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'User'})
+  user:  Types.ObjectId;
 
   
   @ApiProperty()

@@ -1,11 +1,10 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { NoteService } from './note.service';
 import { ApiBearerAuth, ApiProperty, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { IsString, MinLength } from 'class-validator';
 import { Note } from './note.schema';
 import { JwtGuard } from 'src/auth/guards/jwtguard';
-import { ObjectId } from 'mongoose';
-import { AuthGuard } from '@nestjs/passport';
+
 
 
 class CreateNoteBody{
@@ -19,15 +18,30 @@ class CreateNoteBody{
 @Controller('note')
 export class NoteController {
     constructor(private noteService: NoteService){}
-     
-    // @ApiBearerAuth('JWT')
-    // @ApiSecurity('JWT')
-    // @UseGuards(JwtGuard)
-    @ApiSecurity('JWT')
+    
+      
+
+    
+    // @ApiBearerAuth()
+    @UseGuards(JwtGuard)
+    //   @ApiSecurity('JWT')
     @Post('/')
-    async createnote(@Body()createnotebody: CreateNoteBody): Promise<Note>{
+    async createnote(@Body()createnotebody: CreateNoteBody , @Request() req:any): Promise<Note>{
+        const user = req.user;
       return await this.noteService.createnotes(createnotebody.title,createnotebody.description,
-        createnotebody.tag,);
+        createnotebody.tag, user
+        );
     }
+
+    // @ApiBearerAuth()
+    @UseGuards(JwtGuard)
+    // @ApiSecurity('JWT')
+    @Get('/post')
+    post(@Request() req:any): any{
+        // return " hii "+ JSON.stringify(req.userid);
+        console.log('post() controller', req.user);
+    return "hi";
+    }
+    
 
 }

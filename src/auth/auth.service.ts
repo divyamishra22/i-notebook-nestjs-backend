@@ -4,9 +4,10 @@ import { compare } from 'bcrypt';
 import { UserService } from 'src/user/user.service';
 
 
-export interface JWTPayload {
-  userid: string;
-}
+// export interface JWTPayload {
+//   userid: string;
+// }
+
 
 
 @Injectable()
@@ -35,10 +36,11 @@ export class AuthService {
   }
   if(user &&  this.matchPassHash(password, user.password))
   {
-    const payload: JWTPayload = { userid: user._id };
-    const jwt = await this.jwtService.sign({payload});
-    return {token: jwt,
-      expiresIn: '30 days',};
+    // const payload: JWTPayload = { userid: user._id };
+    // const jwt = await this.jwtService.sign({payload});
+    // return {token: jwt,
+    //   expiresIn: '30 days',};
+    return this.signUser(user._id, user.email, 'user');
   }
   else{
     return 'password not match';
@@ -54,5 +56,13 @@ private async matchPassHash(
   return (await compare(password, hash)) === true;
 }
 
+
+signUser(userId: string, email: string, type:string){
+  return this.jwtService.sign({
+    sub:userId,
+    email:email,
+    type:type,
+  })
+}
 
 }
