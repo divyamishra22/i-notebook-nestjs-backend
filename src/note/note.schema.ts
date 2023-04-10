@@ -1,26 +1,30 @@
 import {Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
 // import { Schema } from "mongoose";
-import mongoose, { Document,   } from "mongoose";
+import mongoose, { Document, ObjectId, Types,   } from "mongoose";
+import { User } from "src/user/user.schema";
+
 
 
 export type NoteDocument = Note & Document;
 @Schema()
 export class Note {
 
-   @ApiProperty()
-  user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  //  @ApiProperty()
+  // // @Prop({type: Types.ObjectId})
+  // // _id: Types.ObjectId;
+  // _id: mongoose.Types.ObjectId;
 
-  // @ApiProperty()
-  // @Prop({required: true})
-  // id: string;
+  // @Prop({type: [Types.ObjectId], ref: 'User'})
+  // userid: string;
 
+  
   @ApiProperty()
-  @Prop({required:true})
+  @Prop({required:true , unique: true})
   title: string;
 
   
-  @Prop({required:true })
+  @Prop({required:true , unique:true })
   description: string;
 
   

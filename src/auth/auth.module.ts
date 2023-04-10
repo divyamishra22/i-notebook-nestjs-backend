@@ -4,9 +4,12 @@ import { AuthService } from './auth.service';
 // import { LocalStrategy } from './local strategy';
 import { UserModule } from 'src/user/user.module';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtGuard } from './guards/jwtguard';
 import { JwtStrategy } from './guards/jwt strategy';
+import { UserService } from 'src/user/user.service';
+import { jwtConstants } from './constants';
+
 
 
 
@@ -15,14 +18,14 @@ import { JwtStrategy } from './guards/jwt strategy';
   // imports: [PassportModule,UserModule,],
   imports: [UserModule,
     JwtModule.register({
-      secret: 'divya123',
+      secret: jwtConstants.secret,
       signOptions: { expiresIn: '10days' },
     }),
 
 ],
   controllers: [AuthController],
-  // providers: [AuthService, JwtStrategy],
-  providers: [AuthService,JwtGuard, JwtStrategy ],
-   exports: [AuthService, JwtStrategy]
+  // providers: [AuthService,JwtGuard, JwtStrategy ],
+  providers: [AuthService,JwtStrategy],
+   exports: [AuthService,]
 })
 export class AuthModule {}

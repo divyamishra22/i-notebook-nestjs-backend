@@ -8,12 +8,12 @@ import { jwtConstants } from "../constants";
 // import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
-export class JwtStrategy extends  PassportStrategy(Strategy, 'jwt'){
+export class JwtStrategy extends  PassportStrategy(Strategy){
  
  constructor( private userService: UserService){
       
     super({
-       usernameField: 'email',
+      //  usernameField: 'email',
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         ignoreExpiration: false,
         secretOrKey: jwtConstants.secret,
