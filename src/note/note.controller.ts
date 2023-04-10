@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { NoteService } from './note.service';
 import { ApiBearerAuth, ApiProperty, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { IsString, MinLength } from 'class-validator';
@@ -44,4 +44,10 @@ export class NoteController {
     async getyournote(@getUserbyId() userId:string): Promise<Note>{
         return await this.noteService.getyournote(userId);
     }
+
+    @Delete('/deleteyournote')
+    async deleteyournote(@getUserbyId() userId:string){
+        return await this.noteService.deleteyournote(userId);
+    }
+
 }
