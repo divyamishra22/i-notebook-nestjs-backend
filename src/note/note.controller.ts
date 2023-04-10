@@ -37,7 +37,7 @@ export class NoteController {
     @Get('/post')
     post(@Request() req:any): any{
         // return " hii "+ JSON.stringify(req.userid);
-        console.log('post() controller', req.user);
+        // console.log('post() controller', req.user);
     return "hi " + JSON.stringify(req.user);
     }
     
