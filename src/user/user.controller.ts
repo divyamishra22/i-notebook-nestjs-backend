@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.schema';
@@ -40,7 +40,7 @@ export class UserController {
         return await this.userService.getusername(username);
     }
 
-    @Put('/id')
+    @Patch('/id')
     async updateuserdetails( @Param() userId: string ,@Body() userupdaterequestbody: UserUpdateRequestBody){
         return await this.userService.updateuserdetails(userId, userupdaterequestbody);
     }

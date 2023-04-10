@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Note, NoteDocument } from './note.schema';
 import { Model, ObjectId } from 'mongoose';
-import { throwError } from 'rxjs';
+
 
 @Injectable()
 export class NoteService {
@@ -40,6 +40,22 @@ export class NoteService {
     }
 
 
+    async updateyournote(updatenoterequestbody,userId:string){
+      const note =  await this.noteModel.findOne({_id:userId}).exec();
+      if(updatenoterequestbody.title){
+        note.title = updatenoterequestbody.title;
+      }
+      if(updatenoterequestbody.description){
+        note.description = updatenoterequestbody.description;
+      }
+      if(updatenoterequestbody.tag){
+        note.tag = updatenoterequestbody.tag;
+      } 
+      return note.save();
+    }
+
+
+    
     async deleteyournote(userId:string){
       return await this.noteModel.deleteOne({user:userId}).exec();
     }

@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { NoteService } from './note.service';
-import { ApiBearerAuth, ApiProperty, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty, ApiSecurity, ApiTags, PartialType } from '@nestjs/swagger';
 import { IsString, MinLength } from 'class-validator';
 import { Note } from './note.schema';
 import { JwtGuard } from 'src/auth/guards/jwtguard';
@@ -14,6 +14,8 @@ class CreateNoteBody{
     @ApiProperty() @IsString() @MinLength(1)  tag: string;
     
 }
+
+class UpdateNoteRequestBody extends PartialType(CreateNoteBody){}
   
 @ApiTags('Notes')
 @Controller('note')
@@ -45,9 +47,15 @@ export class NoteController {
         return await this.noteService.getyournote(userId);
     }
 
+
+    @UseGuards(JwtGuard)
     @Delete('/deleteyournote')
     async deleteyournote(@getUserbyId() userId:string){
         return await this.noteService.deleteyournote(userId);
     }
-
+  
+    @Patch('/updateyournote')
+    async updateyournote(@Body() updatenoterequestbody:UpdateNoteRequestBody,@getUserbyId() userId: string){
+        return await this.noteService.updateyournote(updatenoterequestbody, userId);
+    }
 }
