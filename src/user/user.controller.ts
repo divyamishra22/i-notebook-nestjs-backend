@@ -20,7 +20,7 @@ class UserUpdateRequestBody extends PartialType(UserCreateRequestBody){}
 export class UserController {
     constructor(private userService: UserService) {}
     
-    @Post('/')
+    @Post('/signup')
    async create(@Body() usercreaterequestbody: UserCreateRequestBody){
         return await this.userService.create(usercreaterequestbody);
     }
