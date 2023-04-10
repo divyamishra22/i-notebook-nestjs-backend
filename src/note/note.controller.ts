@@ -40,7 +40,7 @@ export class NoteController {
     post(@Request() req:any): any{
         // return " hii "+ JSON.stringify(req.userid);
         console.log('post() controller', req.user);
-    return "hi";
+    return "hi " + JSON.stringify(req.user);
     }
     
 
