@@ -20,9 +20,6 @@ class CreateNoteBody{
 export class NoteController {
     constructor(private noteService: NoteService){}
     
-      
-
-    
     // @ApiBearerAuth()
     @UseGuards(JwtGuard)
     //   @ApiSecurity('JWT')
@@ -42,5 +39,9 @@ export class NoteController {
     return "hi " + JSON.stringify(req.user);
     }
     
-
+    @UseGuards(JwtGuard)
+    @Get('/getyournote')
+    async getyournote(@getUserbyId() userId:string): Promise<Note>{
+        return await this.noteService.getyournote(userId);
+    }
 }

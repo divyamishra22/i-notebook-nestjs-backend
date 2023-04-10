@@ -34,5 +34,8 @@ export class NoteService {
      return note.save();
     }
 
-    // updatenotes(title:string, desc:string, tag:string, )
+    
+    async getyournote(userId:string){
+      return await this.noteModel.findOne({user:userId}).exec();
+    }
 }
