@@ -69,7 +69,20 @@ export class UserService {
     return await this.userModel.findOne({email}).exec();
   }
 
-
+ async  updateuserdetails(userId, updateuserdetails){
+    const user = await this.userModel.findOne({_id: userId}).exec();
+    if(updateuserdetails.name){
+      user.name = updateuserdetails.name;
+    }
+    if(updateuserdetails.password){
+       user.password = updateuserdetails.password;
+    }
+    if(updateuserdetails.email){
+       user.email = updateuserdetails.email;
+    }
+     
+      return  user.save();
+  }
 
   
   }

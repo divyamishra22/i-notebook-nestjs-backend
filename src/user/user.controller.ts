@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.schema';
@@ -10,7 +10,8 @@ class UserCreateRequestBody{
     @ApiProperty() @IsString() @MinLength(5) password: string;
     @ApiProperty() @IsString() @IsEmail() email: string;
 }
-    
+   
+class UserUpdateRequestBody extends PartialType(UserCreateRequestBody){}
 
 
 
@@ -39,6 +40,13 @@ export class UserController {
         return await this.userService.getusername(username);
     }
 
+    @Put('/id')
+    async updateuserdetails( @Param() userId: string ,@Body() userupdaterequestbody: UserUpdateRequestBody){
+        return await this.userService.updateuserdetails(userId, userupdaterequestbody);
+    }
+
+
+     
     @Delete('/id')
     async remove(@Param('id')id: string){
     return await this.userService.remove(id);
