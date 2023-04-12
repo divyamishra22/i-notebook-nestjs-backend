@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
-import { ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.schema';
 import { IsEmail, IsString, MinLength } from 'class-validator';
+import { JwtGuard } from 'src/auth/guards/jwtguard';
 
 
 class UserCreateRequestBody{
@@ -25,7 +26,9 @@ export class UserController {
         return await this.userService.create(usercreaterequestbody);
     }
 
-    @Get('/user')
+    // @UseGuards(JwtGuard)
+    // @ApiBearerAuth()
+    @Get('/allusers')
    async findall(): Promise<User[]>{
         return await this.userService.findall();
     }
