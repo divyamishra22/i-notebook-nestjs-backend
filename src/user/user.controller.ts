@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { User } from './user.schema';
 import { IsEmail, IsString, MinLength } from 'class-validator';
 import { JwtGuard } from 'src/auth/guards/jwtguard';
+import { getUserbyId } from 'src/auth/auth.decorator';
 
 
 class UserCreateRequestBody{
@@ -26,33 +27,41 @@ export class UserController {
         return await this.userService.create(usercreaterequestbody);
     }
 
-    // @UseGuards(JwtGuard)
-    // @ApiBearerAuth()
+    @ApiBearerAuth()
+    @UseGuards(JwtGuard)
     @Get('/allusers')
    async findall(): Promise<User[]>{
         return await this.userService.findall();
     }
+
+    @ApiBearerAuth()
+    @UseGuards(JwtGuard)
     @Get('/id')
     async find(@Param('id') id: string): Promise<User>{
         return await this.userService.findOne(id);
     }
 
 
+    @ApiBearerAuth()
+    @UseGuards(JwtGuard)
     @Get('/username')
     async getusername(@Param('username') username:string){
         return await this.userService.getusername(username);
     }
 
+    @ApiBearerAuth()
+    @UseGuards(JwtGuard)
     @Patch('/id')
-    async updateuserdetails( @Param() userId: string ,@Body() userupdaterequestbody: UserUpdateRequestBody){
+    async updateuserdetails( @getUserbyId() userId: string ,@Body() userupdaterequestbody: UserUpdateRequestBody){
         return await this.userService.updateuserdetails(userId, userupdaterequestbody);
     }
 
 
-     
+    @ApiBearerAuth()
+    @UseGuards(JwtGuard) 
     @Delete('/id')
-    async remove(@Param('id')id: string){
-    return await this.userService.remove(id);
+    async remove(@getUserbyId() userid: string){
+    return await this.userService.remove(userid);
     }
    
 }
