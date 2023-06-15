@@ -14,13 +14,13 @@ import { ProdDbModule } from './db.module';
 
 @Module({
   imports: [
-    // MongooseModule.forRoot(
-    //   'mongodb://divya:divya123@127.0.0.1:27017/mydb1',
-    // ),
+    MongooseModule.forRoot(
+      'mongodb://divya:divya123@127.0.0.1:27017/mydb1',
+    ),
     UserModule,
     NoteModule,
     AuthModule,
-    ProdDbModule
+    // ProdDbModule
   ],
   controllers: [AppController],
   providers: [AppService],
