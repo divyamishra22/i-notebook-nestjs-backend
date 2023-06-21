@@ -36,16 +36,22 @@ export class UserService {
     findall(): Promise<User[]>{
       return this.userModel.find().exec();
     }
-    async findOne(id:string): Promise<User>{
-     return await  this.userModel.findOne({id}).exec();
+     findOne(id:string): Promise<User>{
+     return  this.userModel.findOne({id}).exec();
     }
+
+    findUser(id:string): Promise<User>{
+      return this.userModel.findOne({_id:id}).exec();
+    }
+
+
    
     remove(id:string){
       return this.userModel.deleteOne({id}).exec();
     }
      
-    async getusername(username:string): Promise<User>{
-      return  await this.userModel.findOne({username}).exec();
+     getusername(name:string): Promise<any>{
+      return   this.userModel.findOne({name: name}).exec();
     }
 
 
