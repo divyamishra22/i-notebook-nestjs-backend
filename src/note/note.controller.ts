@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { NoteService } from './note.service';
-import { ApiBearerAuth, ApiProperty, ApiSecurity, ApiTags, PartialType } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty, ApiPropertyOptional, ApiSecurity, ApiTags, PartialType } from '@nestjs/swagger';
 import { IsString, MinLength } from 'class-validator';
 import { Note } from './note.schema';
 import { JwtGuard } from 'src/auth/guards/jwtguard';
@@ -9,9 +9,13 @@ import { getUserbyId } from 'src/auth/auth.decorator';
 
 
 class CreateNoteBody{
-    @ApiProperty() @IsString() @MinLength(3) title: string;
-    @ApiProperty() @MinLength(5) description: string;
-    @ApiProperty() @IsString() @MinLength(1)  tag: string;
+    @ApiProperty() 
+    // @IsString()  
+    title: string;
+    @ApiProperty() 
+    // @MinLength(5)
+     description: string;
+    // @ApiPropertyOptional() @IsString()  tag: string;
     
 }
 
@@ -25,17 +29,15 @@ export class NoteController {
      
     @UseGuards(JwtGuard)
     @ApiBearerAuth()
-    //   @ApiSecurity('JWT')
     @Post('/createyournote')
     async createnote(@Body()createnotebody: CreateNoteBody , @getUserbyId()userId:string): Promise<Note>{
       return await this.noteService.createnotes(createnotebody.title,createnotebody.description,
-        createnotebody.tag, userId);
+         userId);
     }
 
     
     @UseGuards(JwtGuard)
     @ApiBearerAuth()
-    //  @ApiSecurity('JWT')
     @Get('/post')
     post(@Request() req:any): any{
       
@@ -44,31 +46,52 @@ export class NoteController {
     }
     
 
-    // @ApiSecurity('JWT')
-    
-     @UseGuards(JwtGuard)
-     @ApiBearerAuth()
-    @Get('/getyournote')
-    async getyournote(@getUserbyId() userId:string): Promise<Note[]>{
-        return await this.noteService.getyournote(userId);
+    @ApiBearerAuth()
+    @UseGuards(JwtGuard)
+    @Put('/:id')
+    async find(@Param('id') id: string): Promise<Note>{
+        return await this.noteService.findNote(id);
     }
 
 
-    // @ApiSecurity('JWT')
+
+
+    @UseGuards(JwtGuard)
+    @ApiBearerAuth()
+   @Get('/getyournote')
+   async getyournote(@getUserbyId() userId:string): Promise<Note[]>{
+       return await this.noteService.getyournote(userId);
+   }
+
+
+
+    @Get('/search/:term')
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  searchNote(@Param('term') term: string) {
+    return this.noteService.searchNote(term);
+  }
+
+
+
+    
    
     @UseGuards(JwtGuard)
     @ApiBearerAuth()
-    @Delete('/deleteyournote')
-    async deleteyournote(@getUserbyId() userId:string){
-        return await this.noteService.deleteyournote(userId);
+    @Delete('/deleteyournote/:id')
+    async deleteyournote( @Param('id') id: string){
+        return await this.noteService.deleteyournote(id);
     }
   
-    // @ApiSecurity('JWT')
+    
     
     @UseGuards(JwtGuard)
     @ApiBearerAuth()
-    @Patch('/updateyournote')
-    async updateyournote(@Body() updatenoterequestbody:UpdateNoteRequestBody,@getUserbyId() userId: string){
-        return await this.noteService.updateyournote(updatenoterequestbody, userId);
+    @Patch('/updateyournote/:id')
+     updateyournote( @Param('id') id: string, @Body() updatenoterequestbody:UpdateNoteRequestBody,@getUserbyId() userId: string){
+        const upnote  = this.noteService.updateyournote(updatenoterequestbody, id);
+        return{
+            upnote
+        }
     }
 }
