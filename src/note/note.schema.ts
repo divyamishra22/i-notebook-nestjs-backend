@@ -20,16 +20,20 @@ export class Note {
 
   
   @ApiProperty()
-  @Prop({required:true , unique: true})
+  @Prop({required:true , 
+    // unique: true
+  })
   title: string;
 
   
-  @Prop({required:true , unique:true })
+  @Prop({required:true ,
+    //  unique:true
+     })
   description: string;
 
   
-  @Prop({required:true})
-  tag: string;
+  // @Prop({required:true})
+  // tag: string;
 
   
   @Prop({ optional: true})
