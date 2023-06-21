@@ -36,17 +36,17 @@ export class UserController {
 
     @ApiBearerAuth()
     @UseGuards(JwtGuard)
-    @Get('/id')
+    @Get('/:id')
     async find(@Param('id') id: string): Promise<User>{
-        return await this.userService.findOne(id);
+        return await this.userService.findUser(id);
     }
 
 
     @ApiBearerAuth()
     @UseGuards(JwtGuard)
-    @Get('/username')
-    async getusername(@Param('username') username:string){
-        return await this.userService.getusername(username);
+    @Get('/:name')
+    async getusername(@Param('name') name:string){
+        return await this.userService.getusername(name);
     }
 
     @ApiBearerAuth()
@@ -59,9 +59,16 @@ export class UserController {
 
     @ApiBearerAuth()
     @UseGuards(JwtGuard) 
-    @Delete('/id')
+    @Delete('/:id')
     async remove(@getUserbyId() userid: string){
     return await this.userService.remove(userid);
     }
+
+    @ApiBearerAuth()
+  @Get('/auth/me')
+  @UseGuards(JwtGuard)
+  getUserFromToken(@getUserbyId() userid:string) {
+      return this.userService.findUser(userid);
+  }
    
 }
