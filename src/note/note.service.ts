@@ -8,7 +8,7 @@ import { Model, ObjectId } from 'mongoose';
 export class NoteService {
     constructor(@InjectModel(Note.name) private noteModel: Model<any>){}
     
-   async  createnotes(title:string, desc:string, tag:string, userId:string){
+   async  createnotes(title:string, desc:string,  userId:string){
      const note = new this.noteModel();
      const findtitle =  await this.noteModel.findOne({title}).exec();
      if(!findtitle)
@@ -29,19 +29,30 @@ export class NoteService {
         HttpStatus.BAD_REQUEST,
       )
      }
-     note.tag = tag;
+    //  note.tag = tag;
      note.user = userId;
      return note.save();
     }
 
     
     async getyournote(userId:string){
-      return await this.noteModel.find({user:userId}).exec();
+      const notes= await this.noteModel.find({user:userId}).exec();
+      // console.log(notes)
+      return notes
     }
 
 
-    async updateyournote(updatenoterequestbody,userId:string){
-      const note =  await this.noteModel.findOne({_id:userId}).exec();
+
+
+    findNote(id:string): Promise<Note>{
+      return this.noteModel.findOne({_id:id}).exec();
+    }
+
+
+
+
+    async updateyournote(updatenoterequestbody,Id:string){
+      const note =  await this.noteModel.findOne({_id:Id}).exec();
       if(updatenoterequestbody.title){
         note.title = updatenoterequestbody.title;
       }
@@ -56,7 +67,21 @@ export class NoteService {
 
 
 
-    async deleteyournote(userId:string){
-      return await this.noteModel.deleteOne({user:userId}).exec();
+    async deleteyournote( id:string){
+      // const user = await this.noteModel.findOne({user: userId}).exec()
+      // if()
+      return await this.noteModel.deleteOne({_id:id}).exec();
     }
+
+
+    async searchNote(term) {
+      
+    const keyword = term? {title:{
+          $regex: term,
+          $options:'i',
+        }}: {};
+      
+      return this.noteModel.find({...keyword}).exec();
+    }
+
 }
